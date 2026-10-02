@@ -63,7 +63,7 @@ export default function VerifyOtp() {
     <div className="auth-page">
       <div className="auth-overlay" />
       <header className="auth-navbar">
-        <Link to="/" className="auth-logo"><span className="logo-symbol">✕</span><span>Garba<span>Jodi</span></span></Link>
+        <Link to="/" className="auth-logo"><span className="logo-symbol">✕</span><span>Garba<span>Mate</span></span></Link>
         <Link to="/login" className="nav-login-btn">Log in</Link>
       </header>
       <main className="auth-container">

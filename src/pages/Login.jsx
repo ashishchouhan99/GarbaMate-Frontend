@@ -42,7 +42,7 @@ const Login = () => {
         <Link to="/" className="auth-logo">
           <span className="logo-symbol">✕</span>
           <span>
-            Garba<span>Jodi</span>
+            Garba<span>Mate</span>
           </span>
         </Link>
 
@@ -73,7 +73,7 @@ const Login = () => {
             <h1>
               Log In to
               <br />
-              <span>GarbaJodi</span>
+              <span>GarbaMate</span>
             </h1>
 
             <div className="gold-divider">
