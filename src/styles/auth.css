@@ -1,0 +1,882 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+
+/* =========================================
+   MAIN PAGE
+========================================= */
+
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  background-image: var(--cloudinary-festival-bg);
+  background-size: cover;
+  background-position: center;
+
+  color: #fff;
+
+  overflow-x: hidden;
+
+  font-family: "Poppins", sans-serif;
+}
+
+
+/* =========================================
+   DARK OVERLAY
+========================================= */
+
+.auth-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6, 10, 35, 0.72),
+      rgba(10, 7, 31, 0.45),
+      rgba(6, 10, 35, 0.68)
+    );
+
+  z-index: 0;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.auth-navbar {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  z-index: 10;
+
+  width: 100%;
+
+  padding: 22px 5%;
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth-main {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+
+/* Logo */
+
+.auth-logo {
+  text-decoration: none;
+
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 34px;
+
+  font-weight: 700;
+}
+
+.auth-logo > span:last-child span {
+  color: #f5b632;
+}
+
+
+/* Decorative X */
+
+.logo-symbol {
+  color: #f5b632;
+
+  font-size: 38px;
+
+  font-family: sans-serif;
+
+  transform: rotate(45deg);
+
+  display: inline-block;
+}
+
+
+/* Right navigation */
+
+.auth-nav-right {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  font-size: 14px;
+
+  color: rgba(255,255,255,0.85);
+}
+
+
+/* Login / Signup button */
+
+.nav-login-btn {
+  text-decoration: none;
+
+  color: #fff;
+
+  border: 1px solid #e9a927;
+
+  border-radius: 30px;
+
+  padding: 10px 28px;
+
+  transition: 0.3s;
+}
+
+.nav-login-btn:hover {
+  background: #f5b632;
+
+  color: #1b1123;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   CENTER
+========================================= */
+
+.auth-container {
+  position: relative;
+
+  z-index: 5;
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 126px clamp(15px, 4vw, 40px) 50px;
+
+  padding-bottom: 50px;
+}
+
+.auth-message {
+  margin: 0 0 14px;
+  color: #f5d477;
+  text-align: center;
+  font-size: 13px;
+}
+
+.auth-message-error { color: #ff9e9e; }
+
+.otp-card { width: min(500px, 100%); }
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.otp-inputs input {
+  width: clamp(40px, 11vw, 52px);
+  height: clamp(48px, 13vw, 58px);
+  border: 1px solid rgba(237, 175, 43, 0.65);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 248, 240, 0.08);
+  color: #fff;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.otp-inputs input:focus {
+  border-color: #f5b632;
+  box-shadow: 0 0 0 3px rgba(245, 182, 50, 0.16);
+}
+
+.resend-button {
+  border: 0;
+  padding: 0;
+  color: #f5b632;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.resend-button:disabled { color: rgba(255, 255, 255, 0.5); cursor: not-allowed; }
+
+
+/* =========================================
+   AUTH CARD
+========================================= */
+
+.auth-card {
+  position: relative;
+
+  width: min(440px, 100%);
+
+  padding: 38px 40px 34px;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(28, 14, 42, 0.92),
+      rgba(47, 18, 34, 0.92)
+    );
+
+  border: 1px solid rgba(237, 175, 43, 0.75);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.5),
+    inset 0 0 50px rgba(255,174,45,0.04);
+
+  backdrop-filter: blur(12px);
+
+  animation: cardAppear 0.8s ease forwards;
+}
+
+
+@keyframes cardAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(30px)
+      scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+
+/* Signup slightly larger */
+
+.signup-card {
+  width: min(460px, 100%);
+}
+
+
+/* =========================================
+   DECORATION
+========================================= */
+
+.card-decoration {
+
+  position: absolute;
+
+  top: -17px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #f4b332;
+
+  font-size: 23px;
+
+  background: #24132f;
+
+  border: 1px solid #e5a82e;
+
+  transform-origin: center;
+
+  rotate: 45deg;
+}
+
+
+.card-decoration::first-letter {
+  rotate: -45deg;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.auth-heading {
+  text-align: center;
+
+  margin-bottom: 28px;
+}
+
+
+.auth-small-heading {
+
+  margin: 0 0 5px;
+
+  font-size: 14px;
+
+  color: #e7d9d2;
+
+  letter-spacing: 0.3px;
+}
+
+
+.auth-heading h1 {
+
+  margin: 0;
+
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 43px;
+
+  line-height: 0.95;
+
+  font-weight: 700;
+
+  color: #fff;
+}
+
+
+.auth-heading h1 span {
+
+  color: #f4b332;
+}
+
+
+.auth-subtitle {
+
+  margin: 7px 0 0;
+
+  color: rgba(255,255,255,0.65);
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   GOLD DIVIDER
+========================================= */
+
+.gold-divider {
+
+  width: 100px;
+
+  height: 18px;
+
+  margin: 8px auto 0;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #f5b632;
+}
+
+
+.gold-divider::before,
+.gold-divider::after {
+
+  content: "";
+
+  height: 1px;
+
+  width: 38px;
+
+  background: #d49b2b;
+}
+
+
+.gold-divider::before {
+  margin-right: 8px;
+}
+
+.gold-divider::after {
+  margin-left: 8px;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.input-group {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  height: 52px;
+
+  margin-bottom: 14px;
+
+  border: 1px solid rgba(255,255,255,0.3);
+
+  border-radius: 28px;
+
+  background: rgba(255,255,255,0.025);
+
+  transition: 0.25s;
+}
+
+
+.input-group:focus-within {
+
+  border-color: #f4b332;
+
+  box-shadow:
+    0 0 0 3px rgba(244,179,50,0.08);
+}
+
+
+.input-icon {
+
+  width: 48px;
+
+  text-align: center;
+
+  color: #e9aa30;
+
+  font-size: 17px;
+}
+
+
+.input-group input {
+
+  flex: 1;
+
+  height: 100%;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #fff;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  padding-right: 15px;
+}
+
+
+.input-group input::placeholder {
+
+  color: rgba(255,255,255,0.55);
+}
+
+
+/* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+.password-toggle {
+
+  background: transparent;
+
+  border: none;
+
+  color: rgba(255,255,255,0.55);
+
+  cursor: pointer;
+
+  padding: 0 16px;
+}
+
+
+/* =========================================
+   LOGIN OPTIONS
+========================================= */
+
+.login-options {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin: 2px 5px 20px;
+
+  font-size: 12px;
+}
+
+
+.login-options label {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: rgba(255,255,255,0.7);
+
+  cursor: pointer;
+}
+
+
+.login-options input {
+
+  accent-color: #f4b332;
+}
+
+
+.login-options a {
+
+  color: #f4b332;
+
+  text-decoration: none;
+}
+
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   GOLD BUTTON
+========================================= */
+
+.gold-button {
+
+  width: 100%;
+
+  height: 52px;
+
+  border: none;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f2aa2c,
+      #ffc34d
+    );
+
+  color: #24152b;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  box-shadow:
+    0 8px 20px rgba(241,164,35,0.2);
+
+  transition: 0.3s;
+}
+
+
+.gold-button span {
+
+  font-size: 20px;
+
+  transition: 0.3s;
+}
+
+
+.gold-button:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 25px rgba(241,164,35,0.3);
+}
+
+
+.gold-button:hover span {
+
+  transform: translateX(5px);
+}
+
+
+/* =========================================
+   OR
+========================================= */
+
+.or-divider {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin: 22px 0 16px;
+
+  color: rgba(255,255,255,0.6);
+
+  font-size: 11px;
+}
+
+
+.or-divider span {
+
+  height: 1px;
+
+  flex: 1;
+
+  background: rgba(255,255,255,0.18);
+}
+
+
+.or-divider p {
+  margin: 0;
+}
+
+
+/* =========================================
+   GOOGLE BUTTON
+========================================= */
+
+.google-button {
+
+  width: 100%;
+
+  height: 50px;
+
+  border-radius: 26px;
+
+  border: 1px solid #d6a12f;
+
+  background: rgba(0,0,0,0.1);
+
+  color: #fff;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 12px;
+
+  transition: 0.3s;
+}
+
+
+.google-button strong {
+
+  font-family: Arial, sans-serif;
+
+  font-size: 19px;
+
+  color: #4285f4;
+}
+
+
+.google-button:hover {
+
+  background: rgba(244,179,50,0.1);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   BOTTOM TEXT
+========================================= */
+
+.bottom-text {
+
+  margin: 20px 0 0;
+
+  text-align: center;
+
+  font-size: 12px;
+
+  color: rgba(255,255,255,0.65);
+}
+
+
+.bottom-text a {
+
+  color: #f4b332;
+
+  text-decoration: none;
+
+  font-weight: 500;
+}
+
+
+.bottom-text a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   CARD CORNERS
+========================================= */
+
+.card-corner {
+
+  position: absolute;
+
+  bottom: 8px;
+
+  width: 28px;
+
+  height: 28px;
+
+  border-bottom: 1px solid #d99e2a;
+}
+
+
+.card-corner.left {
+
+  left: 8px;
+
+  border-left: 1px solid #d99e2a;
+
+  border-bottom-left-radius: 15px;
+}
+
+
+.card-corner.right {
+
+  right: 8px;
+
+  border-right: 1px solid #d99e2a;
+
+  border-bottom-right-radius: 15px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+  .auth-navbar {
+
+    padding: 18px 20px;
+  }
+
+  .auth-logo {
+
+    font-size: 28px;
+  }
+
+  .logo-symbol {
+
+    font-size: 30px;
+  }
+
+  .auth-nav-right span {
+
+    display: none;
+  }
+
+  .auth-card {
+
+    padding: 34px 22px 28px;
+
+    border-radius: 22px;
+  }
+
+  .auth-heading h1 {
+
+    font-size: 36px;
+  }
+
+  .auth-container {
+
+    padding: 104px 15px 30px;
+
+    align-items: center;
+  }
+
+
+  .otp-inputs { gap: 6px; }
+  .otp-inputs input { width: clamp(36px, 12vw, 44px); height: clamp(46px, 14vw, 50px); }
+}
+
+
+/* =========================================
+   VERY SMALL SCREEN
+========================================= */
+
+@media (max-width: 380px) {
+
+  .auth-navbar { padding-left: 14px; padding-right: 14px; }
+
+  .auth-container { padding-left: 10px; padding-right: 10px; }
+
+  .auth-card { padding-left: 16px; padding-right: 16px; }
+
+  .auth-heading h1 {
+    font-size: 32px;
+  }
+
+  .input-group {
+    height: 48px;
+  }
+
+  .gold-button {
+    height: 48px;
+  }
+
+}
+
+/* Keep the festive auth treatment, but use production-style controls. */
+.auth-card { border-radius: 14px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); backdrop-filter: none; }
+.input-group { height: 50px; border-radius: 9px; background: rgba(255, 255, 255, .05); }
+.gold-button, .google-button { border-radius: 9px; }
+.nav-login-btn { border-radius: 9px; }
