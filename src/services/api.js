@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: __SERVER_URL__ || '/api' });
+const normalizeApiBaseUrl = (serverUrl) => {
+  const baseUrl = serverUrl.trim().replace(/\/+$/, '');
+  if (!baseUrl) return '/api';
+  return /\/api$/i.test(baseUrl) ? baseUrl : `${baseUrl}/api`;
+};
+
+const api = axios.create({ baseURL: normalizeApiBaseUrl(__SERVER_URL__ || '') });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('garbamate_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
