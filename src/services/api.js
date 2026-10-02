@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: import.meta.env.SERVER_URL || 'http://localhost:5000/api' });
+const api = axios.create({ baseURL: __SERVER_URL__ || '/api' });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('garbamate_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
