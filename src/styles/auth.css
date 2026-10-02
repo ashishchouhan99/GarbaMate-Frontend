@@ -69,10 +69,17 @@
   align-items: center;
 }
 
-.auth-main {
+main.auth-main {
   width: 100%;
   max-width: none;
+  min-height: 100vh;
+  margin: 0;
   padding: 0;
+}
+
+.auth-shell {
+  width: 100%;
+  min-height: 100vh;
 }
 
 
