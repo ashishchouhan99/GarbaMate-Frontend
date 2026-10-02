@@ -159,19 +159,6 @@ const Login = () => {
 
           </form>
 
-          {/* Divider */}
-          <div className="or-divider">
-            <span></span>
-            <p>OR</p>
-            <span></span>
-          </div>
-
-          {/* Google */}
-          <button className="google-button">
-            <strong>G</strong>
-            Continue with Google
-          </button>
-
           {/* Signup */}
           <p className="bottom-text">
             Don't have an account?{" "}

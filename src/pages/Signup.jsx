@@ -18,6 +18,7 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -31,6 +32,11 @@ const Signup = () => {
 
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
+      return;
+    }
+
+    if (!termsAccepted) {
+      setMessage('You must agree to the Terms & Conditions to create an account.');
       return;
     }
 
@@ -210,6 +216,20 @@ const Signup = () => {
 
             </div>
 
+            <label className="terms-checkbox">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+              />
+              <span>
+                I agree to{" "}
+                <Link to="/terms-and-conditions" onClick={(e) => e.stopPropagation()}>
+                  Terms &amp; Conditions
+                </Link>
+              </span>
+            </label>
+
             {/* Signup */}
             <button
               type="submit"
@@ -220,26 +240,6 @@ const Signup = () => {
             </button>
 
           </form>
-
-          {/* Divider */}
-          <div className="or-divider">
-
-            <span></span>
-
-            <p>OR</p>
-
-            <span></span>
-
-          </div>
-
-          {/* Google */}
-          <button className="google-button">
-
-            <strong>G</strong>
-
-            Continue with Google
-
-          </button>
 
           <p className="bottom-text">
 
