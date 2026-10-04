@@ -5,7 +5,8 @@
 .chat-person { display: flex; align-items: center; gap: .7rem; }
 .chat-person img { width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover; }
 .chat-person h1 { margin: 0; color: #7A0C2E; font-size: 1.2rem; }
-.chat-person p { margin: .15rem 0 0; color: #927b7b; font-size: .8rem; }
+.chat-person-details { min-width: 0; }
+.chat-person p.chat-presence { display: flex; align-items: center; margin: .2rem 0 0; color: #756b64 !important; font-size: .85rem; font-weight: 700; line-height: 1.2; }
 .chat-card { display: flex; flex-direction: column; min-height: 32rem; border: 1px solid rgb(122 12 46 / 12%); border-radius: 1.25rem; background: #fff; box-shadow: 0 12px 30px rgb(122 12 46 / 8%); overflow: hidden; }
 .chat-message-list { flex: 1; overflow-y: auto; padding: 1.25rem; }
 .chat-message-row { display: flex; margin: .45rem 0; }
@@ -28,4 +29,8 @@
 .chat-inbox-item strong { color: #7A0C2E; }
 .chat-inbox-item p { overflow: hidden; margin: .2rem 0 0; color: #927b7b; text-overflow: ellipsis; white-space: nowrap; }
 .chat-unread { display: grid; min-width: 1.4rem; height: 1.4rem; place-items: center; border-radius: 50%; background: #f1a423; color: #7A0C2E; font-size: .72rem; font-weight: 800; }
-@media (max-width: 640px) { .chat-page { margin-inline: -.25rem; } .chat-card { min-height: calc(100vh - 11rem); border-radius: 1rem; } .chat-message-list { padding: .8rem; } .chat-input { position: sticky; bottom: 0; } }
+@media (max-width: 640px) { .chat-page { margin-inline: -.25rem; } .chat-header { align-items: flex-start; } .chat-person { min-width: 0; } .chat-person h1 { max-width: 12rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .chat-person p.chat-presence { display: flex !important; visibility: visible !important; } .chat-card { min-height: calc(100vh - 11rem); border-radius: 1rem; } .chat-message-list { padding: .8rem; } .chat-input { position: sticky; bottom: 0; } }
+.chat-presence { display: flex; align-items: center; gap: .4rem; color: #756b64; }
+.chat-presence span { width: .55rem; height: .55rem; border-radius: 50%; background: #a39a92; }
+.chat-presence.online { color: #2f6b3f !important; }
+.chat-presence.online span { background: #43a047; }
