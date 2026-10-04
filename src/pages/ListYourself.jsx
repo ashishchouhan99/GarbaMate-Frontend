@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import CloudinaryImage from '../components/CloudinaryImage';
+import { apiError, toast } from '../lib/toast';
 
 const blank = { city: '', gender: '', skillLevel: 'beginner', price: '', age: '', bio: '', photoUrl: '', photoPublicId: '', garbaStyle: '', preferredEvent: '', availableDates: [] };
 const maxPhotoSize = 5 * 1024 * 1024;
@@ -22,7 +23,7 @@ export default function ListYourself() {
         setForm({ ...blank, ...data, price: String(data.price), age: data.age ? String(data.age) : '', availableDates: data.availableDates || [] });
         setPreviewUrl(data.photoUrl || '');
       }
-    }).catch(() => {});
+    }).catch((error) => { console.error('Unable to load partner profile:', error); toast.error('Unable to load your profile. Please try again.'); });
   }, []);
 
   const update = (event) => setForm({ ...form, [event.target.name]: event.target.value });
@@ -35,12 +36,12 @@ export default function ListYourself() {
     const file = event.target.files?.[0];
     if (!file) return;
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-      setMessage('Only JPG, JPEG, PNG, and WEBP images are allowed.');
+      setMessage('Only JPG, JPEG, PNG, and WEBP images are allowed.'); toast.warning('Please choose a JPG, PNG, or WEBP image.');
       event.target.value = '';
       return;
     }
     if (file.size > maxPhotoSize) {
-      setMessage('Profile photos must be 5 MB or smaller.');
+      setMessage('Profile photos must be 5 MB or smaller.'); toast.warning('Profile photos must be 5 MB or smaller.');
       event.target.value = '';
       return;
     }
@@ -63,10 +64,10 @@ export default function ListYourself() {
       setSelectedPhoto(null);
       setPreviewUrl(data.photoUrl);
       if (temporaryPreview) URL.revokeObjectURL(temporaryPreview);
-      setMessage('Profile photo uploaded successfully.');
+      setMessage('Profile photo uploaded successfully.'); toast.success('Profile picture updated.');
       return true;
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Could not upload your profile photo.');
+      const message = apiError(error, 'Unable to upload your profile photo. Please try again.'); setMessage(message); toast.error(message);
       return false;
     } finally {
       setUploading(false);
@@ -83,10 +84,11 @@ export default function ListYourself() {
     try {
       if (!(await uploadPhoto())) return;
       const { data } = await saveProfile();
+      toast.success('Profile saved successfully.');
       if (data.listingStatus === 'active' && data.isActive) navigate('/dashboard');
       else navigate('/payment/listing');
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Could not save your profile.');
+      const message = apiError(error, 'Unable to save your profile. Please try again.'); setMessage(message); toast.error(message);
     }
   };
 

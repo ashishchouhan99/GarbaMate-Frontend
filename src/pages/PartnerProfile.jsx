@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import CloudinaryImage from '../components/CloudinaryImage';
+import { apiError, toast } from '../lib/toast';
 
 export default function PartnerProfile() {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export default function PartnerProfile() {
     }
     api.get(`/partners/${id}`).then(({ data }) => setProfile(data)).catch((error) => {
       if (error.response?.status === 402) navigate('/payment/access', { replace: true, state: { from: location } });
-      else setMessage('This dance partner could not be found.');
+      else { setMessage('This dance partner could not be found.'); toast.error('Unable to load this partner profile.'); }
     });
     api.get(`/reviews/partner/${id}`).then(({ data }) => setReviews(data)).catch(() => {});
   }, [id, location, navigate, token]);
@@ -31,9 +32,9 @@ export default function PartnerProfile() {
     setMessage('');
     try {
       await api.post('/bookings', { partnerId: id, date });
-      setMessage('Request sent! You can follow its status in your dashboard.');
+      setMessage('Request sent! You can follow its status in your dashboard.'); toast.success('Booking request sent successfully.');
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Could not send your request.');
+      const message = apiError(error, 'Unable to complete your booking. Please try again.'); setMessage(message); toast.error(message);
     }
   };
 

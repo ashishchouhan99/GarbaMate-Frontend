@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 import { useAuth } from "../context/AuthContext";
+import { apiError, toast } from "../lib/toast";
 
 const Signup = () => {
 
@@ -31,7 +32,7 @@ const Signup = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setMessage('Passwords do not match.');
       return;
     }
 
@@ -42,8 +43,8 @@ const Signup = () => {
 
     setMessage('');
     signup({ name: formData.name, email: formData.email, phone: formData.phone, password: formData.password })
-      .then((data) => navigate('/verify-otp', { state: { email: data.email } }))
-      .catch((error) => setMessage(error.response?.data?.message || 'Could not create your account.'));
+      .then((data) => { toast.success('Account created successfully.'); navigate('/verify-otp', { state: { email: data.email } }); })
+      .catch((error) => { const message = apiError(error, 'Unable to create your account. Please try again.'); setMessage(message); toast.error(message); });
   };
 
   const [message, setMessage] = useState('');

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { apiError, toast } from '../lib/toast';
 
 function loadRazorpay() {
   if (window.Razorpay) return Promise.resolve();
@@ -45,19 +46,19 @@ export default function PaymentPage() {
         handler: async (response) => {
           try {
             await api.post('/payments/verify', response);
-            navigate(purpose === 'PROFILE_LISTING' ? '/dashboard' : '/partners', { replace: true });
+            toast.success('Payment successful.'); navigate(purpose === 'PROFILE_LISTING' ? '/dashboard' : '/partners', { replace: true });
           } catch (error) {
-            setState({ loading: false, paying: false, error: error.response?.data?.message || 'Payment verification failed. Please contact support before retrying.', mockReady: false });
+            const message = apiError(error, "We couldn't verify your payment. Please contact support before retrying."); setState({ loading: false, paying: false, error: message, mockReady: false }); toast.error(message);
           }
         },
-        modal: { ondismiss: () => setState((current) => ({ ...current, paying: false, error: 'Payment was cancelled. You can retry whenever you are ready.' })) },
+        modal: { ondismiss: () => { setState((current) => ({ ...current, paying: false, error: 'Payment was cancelled. You can retry whenever you are ready.' })); toast.info('Payment was cancelled.'); } },
         prefill: {},
         theme: { color: '#7A0C2E' },
       });
-      checkout.on('payment.failed', () => setState({ loading: false, paying: false, error: 'Payment failed. No access or listing was granted.', mockReady: false }));
+      checkout.on('payment.failed', () => { setState({ loading: false, paying: false, error: 'Payment failed. No access or listing was granted.', mockReady: false }); toast.error('Payment failed. Please try again.'); });
       checkout.open();
     } catch (error) {
-      setState({ loading: false, paying: false, error: error.response?.data?.message || error.message || 'Could not start payment.', mockReady: false });
+      const message = apiError(error, 'Unable to start payment. Please try again.'); setState({ loading: false, paying: false, error: message, mockReady: false }); toast.error(message);
     }
   };
 
@@ -65,9 +66,9 @@ export default function PaymentPage() {
     setState((current) => ({ ...current, paying: true, error: '' }));
     try {
       await api.post('/payments/mock-complete', { purpose, outcome });
-      if (outcome === 'success') navigate(purpose === 'PROFILE_LISTING' ? '/dashboard' : '/partners', { replace: true });
+      if (outcome === 'success') { toast.success('Payment successful.'); navigate(purpose === 'PROFILE_LISTING' ? '/dashboard' : '/partners', { replace: true }); }
     } catch (error) {
-      setState({ loading: false, paying: false, error: error.response?.data?.message || 'Mock payment failed.', mockReady: true });
+      const message = apiError(error, 'Payment failed. Please try again.'); setState({ loading: false, paying: false, error: message, mockReady: true }); toast.error(message);
     }
   };
 

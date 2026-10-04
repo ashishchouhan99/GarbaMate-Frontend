@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resendOtp, verifyOtp } from '../services/api';
 import '../styles/auth.css';
+import { apiError, toast } from '../lib/toast';
 
 export default function VerifyOtp() {
   const { state } = useLocation();
@@ -40,9 +41,10 @@ export default function VerifyOtp() {
     setError('');
     try {
       await verifyOtp(email, digits.join(''));
-      navigate('/login', { state: { message: 'Email verified. You can now log in.' } });
+      toast.success('Email verified. You can now log in.');
+      navigate('/login', { replace: true });
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not verify your code.');
+      const message = apiError(requestError, 'Unable to verify your code. Please try again.'); setError(message); toast.error(message);
     }
   };
 
@@ -51,10 +53,10 @@ export default function VerifyOtp() {
     setError('');
     try {
       const response = await resendOtp(email);
-      setMessage(response.data.message);
+      setMessage(response.data.message); toast.success('A new verification code was sent.');
       setCooldown(30);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not resend your code.');
+      const message = apiError(requestError, 'Unable to resend the verification code.'); setError(message); toast.error(message);
       setCooldown(requestError.response?.data?.retryAfter || 30);
     }
   };

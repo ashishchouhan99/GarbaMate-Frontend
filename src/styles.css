@@ -6,6 +6,9 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { overflow-x: hidden; }
 body { margin: 0; min-width: 320px; overflow-x: hidden; }
+.gm-toast { max-width: min( calc(100vw - 2rem), 24rem); border: 1px solid rgb(6 60 50 / 12%); border-radius: 1rem; font-family: Inter, ui-sans-serif, system-ui, sans-serif; box-shadow: 0 14px 34px rgb(6 60 50 / 18%); }
+[data-sonner-toaster] { --width: min(356px, calc(100vw - 2rem)); }
+@media (max-width: 640px) { [data-sonner-toaster] { top: auto !important; right: 1rem !important; bottom: calc(1rem + env(safe-area-inset-bottom)) !important; left: 1rem !important; width: auto !important; } }
 a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
@@ -64,6 +67,37 @@ button { cursor: pointer; }
 .filter-label input:focus, .filter-label select:focus, .field-label input:focus, .field-label select:focus, .field-label textarea:focus { border-color: #C1266E; box-shadow: 0 0 0 3px rgb(193 38 110 / 10%); }
 .field-label { display: block; color: #7A0C2E; font-size: .875rem; font-weight: 700; }
 .field-label input, .field-label select, .field-label textarea { display: block; margin-top: .5rem; }
+
+/* Shared festive theme for pages outside the dedicated home composition. */
+:root {
+	--gmh-green: #063C32;
+	--gmh-cream: #FFFBEF;
+	--gmh-lime: #CCFF00;
+	--gmh-orange: #FF6A00;
+	--gmh-muted: #53645f;
+}
+body { background: var(--gmh-cream); color: var(--gmh-green); }
+.site-header { position: relative; z-index: 10; border-bottom: 1px solid rgb(6 60 50 / 10%); background: rgb(255 251 239 / 94%); box-shadow: 0 6px 24px rgb(6 60 50 / 7%); }
+.site-header .site-nav { min-height: 4.5rem; }
+.site-header .font-display { color: var(--gmh-green); letter-spacing: -.04em; }
+.site-header .text-magenta { color: var(--gmh-orange); }
+.site-header .text-marigold { color: var(--gmh-lime); }
+.site-header .site-nav-links { color: var(--gmh-green); }
+.site-header .site-nav-links a, .site-header .site-nav-links button { transition: color .2s, background-color .2s; }
+.site-header .site-nav-links a:hover, .site-header .site-nav-links button:hover { color: var(--gmh-orange); }
+.site-header .site-nav-links a.rounded-full { background: var(--gmh-green); color: #fff; }
+.site-header .site-nav-links a.rounded-full:hover { background: var(--gmh-orange); color: #fff; }
+.site-main:not(.home-main) { min-height: calc(100vh - 4.5rem); background: radial-gradient(circle at 90% 0, rgb(204 255 0 / 12%), transparent 24rem), var(--gmh-cream); color: var(--gmh-green); }
+.site-main:not(.home-main) h1, .site-main:not(.home-main) h2, .site-main:not(.home-main) h3 { color: var(--gmh-green); }
+.site-main:not(.home-main) p { color: var(--gmh-muted); }
+.site-main:not(.home-main) .bg-white { background-color: #fff; box-shadow: 0 12px 30px rgb(6 60 50 / 8%); }
+.site-main:not(.home-main) .bg-maroon, .site-main:not(.home-main) .bg-magenta { background-color: var(--gmh-green); }
+.site-main:not(.home-main) .text-maroon, .site-main:not(.home-main) .text-magenta { color: var(--gmh-green); }
+.site-main:not(.home-main) .text-marigold { color: var(--gmh-orange); }
+.site-main:not(.home-main) button.bg-maroon:hover, .site-main:not(.home-main) a.bg-maroon:hover { background-color: var(--gmh-orange); }
+.site-main:not(.home-main) input:focus, .site-main:not(.home-main) select:focus, .site-main:not(.home-main) textarea:focus { border-color: var(--gmh-orange); box-shadow: 0 0 0 3px rgb(255 106 0 / 14%); }
+.site-footer { border-color: rgb(6 60 50 / 10%); background: var(--gmh-green); color: rgb(255 251 239 / 75%); }
+.site-footer a { color: var(--gmh-lime); }
 
 .dashboard-page { max-width: 64rem; margin: 0 auto; padding-bottom: 2rem; }
 .dashboard-welcome { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }

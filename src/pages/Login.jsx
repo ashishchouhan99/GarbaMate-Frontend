@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 import { useAuth } from "../context/AuthContext";
+import { apiError, toast } from "../lib/toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage('');
-    login(formData).then(() => navigate(location.state?.from || '/dashboard', { replace: true })).catch((error) => setMessage(error.response?.data?.message || 'Could not log in.'));
+    login(formData).then(() => navigate(location.state?.from || '/dashboard', { replace: true })).catch((error) => { const message = apiError(error, 'Unable to sign in. Please try again.'); setMessage(message); toast.error(message); });
   };
 
   const [message, setMessage] = useState(location.state?.message || '');

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import CloudinaryImage from '../components/CloudinaryImage';
+import { apiError, toast } from '../lib/toast';
 
 const statusLabels = { pending: 'Pending', confirmed: 'Accepted', rejected: 'Rejected', cancelled: 'Cancelled' };
 
@@ -33,7 +34,7 @@ export default function Dashboard() {
       setProfile(profileResponse.data);
       setError('');
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not load your dashboard.');
+      const message = apiError(requestError, 'Unable to load your dashboard. Please try again.'); setError(message); toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -41,7 +42,7 @@ export default function Dashboard() {
   useEffect(() => { refresh(); }, []);
 
   const act = async (id, status) => {
-    try { await api.patch(`/bookings/${id}/status`, { status }); refresh(); } catch (requestError) { setError(requestError.response?.data?.message || 'Could not update request.'); }
+    try { await api.patch(`/bookings/${id}/status`, { status }); toast.success(status === 'cancelled' ? 'Booking request cancelled.' : 'Booking request updated.'); refresh(); } catch (requestError) { const message = apiError(requestError, 'Unable to update the booking request.'); setError(message); toast.error(message); }
   };
   const stats = useMemo(() => ({ sent: data.asSeeker.length, received: data.asPartner.length, views: profile?.profileViews || 0 }), [data, profile]);
   const completion = completionFor(profile);

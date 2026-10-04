@@ -459,13 +459,19 @@ main.auth-main {
   transition: 0.25s;
 }
 
+/* Visible controls on the light authentication card. */
+.input-group {
+  border: 1px solid rgb(6 60 50 / 24%);
+  background: #fff;
+}
+
 
 .input-group:focus-within {
 
-  border-color: #f4b332;
+  border-color: #FF6A00;
 
   box-shadow:
-    0 0 0 3px rgba(244,179,50,0.08);
+    0 0 0 3px rgb(255 106 0 / 14%);
 }
 
 
@@ -475,7 +481,7 @@ main.auth-main {
 
   text-align: center;
 
-  color: #e9aa30;
+  color: #063C32;
 
   font-size: 17px;
 }
@@ -493,7 +499,7 @@ main.auth-main {
 
   background: transparent;
 
-  color: #fff;
+  color: #063C32;
 
   font-family: inherit;
 
@@ -505,7 +511,7 @@ main.auth-main {
 
 .input-group input::placeholder {
 
-  color: rgba(255,255,255,0.55);
+  color: #78908a;
 }
 
 
@@ -795,6 +801,28 @@ main.auth-main {
 
 /* Keep the festive auth treatment, but use production-style controls. */
 .auth-card { border-radius: 14px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); backdrop-filter: none; }
+
+/* Keep authentication screens aligned with the shared homepage palette. */
+.auth-page {
+  background: #FFFBEF;
+  color: #063C32;
+}
+.auth-overlay { background: radial-gradient(circle at 80% 10%, rgb(204 255 0 / 20%), transparent 28rem); }
+.auth-navbar { background: rgb(255 251 239 / 92%); box-shadow: 0 6px 24px rgb(6 60 50 / 8%); }
+.auth-logo { color: #063C32; }
+.auth-logo > span:last-child span, .logo-symbol { color: #FF6A00; }
+.auth-nav-right { color: #53645f; }
+.nav-login-btn { border-color: #063C32; color: #063C32; }
+.nav-login-btn:hover { background: #CCFF00; color: #063C32; }
+.auth-card {
+  background: #fff;
+  border-color: rgb(6 60 50 / 14%);
+  box-shadow: 0 20px 60px rgb(6 60 50 / 12%);
+}
+.card-decoration { color: #063C32; background: #CCFF00; border-color: #063C32; }
+.auth-small-heading, .auth-subtitle { color: #53645f; }
+.auth-heading h1 { color: #063C32; }
+.auth-heading h1 span { color: #FF6A00; }
 .input-group { height: 50px; border-radius: 9px; background: rgba(255, 255, 255, .05); }
 .gold-button { border-radius: 9px; }
 .nav-login-btn { border-radius: 9px; }
