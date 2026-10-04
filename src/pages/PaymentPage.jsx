@@ -46,6 +46,7 @@ export default function PaymentPage() {
         name: 'GarbaMate',
         description: purpose === 'PROFILE_LISTING' ? 'Garba partner listing' : 'Garba partner access',
         order_id: order.orderId,
+        ...(order.checkoutConfigId ? { checkout_config_id: order.checkoutConfigId } : {}),
         handler: async (response) => {
           try {
             await api.post('/payments/verify', response);

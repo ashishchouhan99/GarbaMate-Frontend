@@ -15,6 +15,7 @@ function AuthActions({ onNavigate }) {
   const { user, logout } = useAuth();
   if (user) return <>
     <Link to="/dashboard" onClick={onNavigate} className="gmh-pill gmh-pill--dark">Dashboard</Link>
+    <Link to="/chats" onClick={onNavigate} className="gmh-nav__plain">Messages</Link>
     <button type="button" className="gmh-nav__plain" onClick={() => { logout(); toast.success('Signed out successfully.'); onNavigate?.(); }}>Log out</button>
   </>;
   return <span className="gmh-pill gmh-pill--dark gmh-auth"><Link to="/login" onClick={onNavigate}>Login</Link><span aria-hidden="true">/</span><Link to="/signup" onClick={onNavigate}>Sign Up</Link></span>;
