@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { apiError, toast } from '../lib/toast';
+import { useAuth } from '../context/AuthContext';
 
 function loadRazorpay() {
   if (window.Razorpay) return Promise.resolve();
@@ -17,6 +18,7 @@ function loadRazorpay() {
 export default function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user: currentUser } = useAuth();
   const purpose = location.pathname.endsWith('/listing') ? 'PROFILE_LISTING' : 'PROFILE_ACCESS';
   const [state, setState] = useState({ loading: true, paying: false, error: '', mockReady: false });
 
@@ -52,7 +54,11 @@ export default function PaymentPage() {
           }
         },
         modal: { ondismiss: () => { setState((current) => ({ ...current, paying: false, error: 'Payment was cancelled. You can retry whenever you are ready.' })); toast.info('Payment was cancelled.'); } },
-        prefill: {},
+        prefill: {
+          name: currentUser?.name || '',
+          email: currentUser?.email || '',
+          contact: currentUser?.phone || '',
+        },
         theme: { color: '#7A0C2E' },
       });
       checkout.on('payment.failed', () => { setState({ loading: false, paying: false, error: 'Payment failed. No access or listing was granted.', mockReady: false }); toast.error('Payment failed. Please try again.'); });

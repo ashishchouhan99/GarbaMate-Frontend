@@ -20,6 +20,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -30,6 +31,7 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (submitting) return;
 
     if (formData.password !== formData.confirmPassword) {
       setMessage('Passwords do not match.');
@@ -42,9 +44,25 @@ const Signup = () => {
     }
 
     setMessage('');
+    setSubmitting(true);
+    const startedAt = Date.now();
+    const toastId = toast.loading('Creating your account…');
+    const finishToast = (type, value) => {
+      const remaining = Math.max(0, 600 - (Date.now() - startedAt));
+      window.setTimeout(() => toast[type](value, { id: toastId }), remaining);
+      return remaining;
+    };
     signup({ name: formData.name, email: formData.email, phone: formData.phone, password: formData.password })
-      .then((data) => { toast.success('Account created successfully.'); navigate('/verify-otp', { state: { email: data.email } }); })
-      .catch((error) => { const message = apiError(error, 'Unable to create your account. Please try again.'); setMessage(message); toast.error(message); });
+      .then((data) => {
+        const remaining = finishToast('success', 'Account created successfully.');
+        window.setTimeout(() => navigate('/verify-otp', { state: { email: data.email } }), remaining);
+      })
+      .catch((error) => {
+        const message = apiError(error, 'Unable to create your account. Please try again.');
+        finishToast('error', message);
+        setMessage(message);
+      })
+      .finally(() => setSubmitting(false));
   };
 
   const [message, setMessage] = useState('');
@@ -235,8 +253,9 @@ const Signup = () => {
             <button
               type="submit"
               className="gold-button"
+              disabled={submitting}
             >
-              Sign Up
+              {submitting ? 'Creating account…' : 'Sign Up'}
               <span>→</span>
             </button>
 

@@ -15,6 +15,7 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,8 +26,28 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (submitting) return;
     setMessage('');
-    login(formData).then(() => navigate(location.state?.from || '/dashboard', { replace: true })).catch((error) => { const message = apiError(error, 'Unable to sign in. Please try again.'); setMessage(message); toast.error(message); });
+    setSubmitting(true);
+    const startedAt = Date.now();
+    const toastId = toast.loading('Signing you in…');
+    const request = login(formData);
+    const finishToast = (type, message) => {
+      const remaining = Math.max(0, 600 - (Date.now() - startedAt));
+      window.setTimeout(() => toast[type](message, { id: toastId }), remaining);
+      return remaining;
+    };
+    request
+      .then(() => {
+        const remaining = finishToast('success', 'Welcome back!');
+        window.setTimeout(() => navigate(location.state?.from || '/dashboard', { replace: true }), remaining);
+      })
+      .catch((error) => {
+        const message = apiError(error, 'Unable to sign in. Please try again.');
+        finishToast('error', message);
+        setMessage(message);
+      })
+      .finally(() => setSubmitting(false));
   };
 
   const [message, setMessage] = useState(location.state?.message || '');
@@ -153,8 +174,9 @@ const Login = () => {
             <button
               type="submit"
               className="gold-button"
+              disabled={submitting}
             >
-              Login
+              {submitting ? 'Signing in…' : 'Login'}
               <span>→</span>
             </button>
 
