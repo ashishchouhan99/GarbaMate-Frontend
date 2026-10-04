@@ -12,6 +12,7 @@ export default function VerifyOtp() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [cooldown, setCooldown] = useState(30);
+  const [submitting, setSubmitting] = useState(false);
   const inputs = useRef([]);
 
   useEffect(() => {
@@ -38,13 +39,25 @@ export default function VerifyOtp() {
 
   const verify = async (event) => {
     event.preventDefault();
+    if (submitting) return;
     setError('');
+    setSubmitting(true);
+    const startedAt = Date.now();
+    const toastId = toast.loading('Verifying your email…');
     try {
       await verifyOtp(email, digits.join(''));
-      toast.success('Email verified. You can now log in.');
-      navigate('/login', { replace: true });
+      const remaining = Math.max(0, 600 - (Date.now() - startedAt));
+      window.setTimeout(() => {
+        toast.success('Email verified. You can now log in.', { id: toastId });
+        navigate('/login', { replace: true });
+      }, remaining);
     } catch (requestError) {
-      const message = apiError(requestError, 'Unable to verify your code. Please try again.'); setError(message); toast.error(message);
+      const message = apiError(requestError, 'Unable to verify your code. Please try again.');
+      const remaining = Math.max(0, 600 - (Date.now() - startedAt));
+      window.setTimeout(() => toast.error(message, { id: toastId }), remaining);
+      setError(message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -94,7 +107,7 @@ export default function VerifyOtp() {
                 />
               ))}
             </div>
-            <button type="submit" className="gold-button" disabled={digits.join('').length !== 6}>Verify Email <span>→</span></button>
+            <button type="submit" className="gold-button" disabled={submitting || digits.join('').length !== 6}>{submitting ? 'Verifying…' : 'Verify Email'} <span>→</span></button>
           </form>
           <p className="bottom-text">Didn't receive it? <button type="button" className="resend-button" disabled={Boolean(cooldown)} onClick={resend}>{cooldown ? `Resend in ${cooldown}s` : 'Resend OTP'}</button></p>
         </div>
